@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.pivotallabs.bootcamp.MainActivity" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        tools:context="com.pivotallabs.bootcamp.MainActivity" >
+
+        
+        <!--
+        <SearchView 
+            android:id="@+id/search_view" >
+            
+        </SearchView> 
+        -->
+            
+    	<EditText
+    	    android:id="@+id/search_box"
+    	    android:layout_alignParentLeft="true"
+    	    android:layout_toLeftOf="@+id/button"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="match_parent"
+    	    android:hint="Enter a keyword or SKU..." />
+"
+   
+        <Button 
+            android:id="@+id/button"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Execute Http request" />
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/textbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="32dp"
+        android:text="@string/hello_world" />
+
+</LinearLayout>

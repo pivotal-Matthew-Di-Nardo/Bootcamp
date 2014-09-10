@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-    
-    
-    <ImageView android:id="@+id/products_list_view_item.thumbnail_icon"/>
-    
-    <TextView android:id="@+id/products_list_view_item.price_textview" android:layout_below="@id/products_list_view_item.thumbnail_icon"/>
-    
+     
+    <TextView android:id="@+id/products_list_view_item.name_textview" />
+    <ImageView android:id="@+id/products_list_view_item.thumbnail_icon" 
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:minWidth="64dp"
+                android:minHeight="64dp"/>
+    <TextView android:id="@+id/products_list_view_item.price_textview" android:layout_alignTop="@+id/products_list_view_item.thumbnail_icon"/>
 </RelativeLayout>

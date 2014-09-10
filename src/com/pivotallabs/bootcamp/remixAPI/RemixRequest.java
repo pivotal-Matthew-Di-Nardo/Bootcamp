@@ -29,7 +29,7 @@ public class RemixRequest {
     private static final String apiKey = "fd5a9pp3fs96z6nvw3bmmpt6";
     private static final String baseURL = "http://api.remix.bestbuy.com/v1/";
     
-    private RemixAPI.API api = RemixAPI.API.PRODUCTS;
+    private RemixAPI.Endpoint api = RemixAPI.Endpoint.PRODUCTS;
     private RemixAPI.Format format = RemixAPI.Format.JSON; //json default. 
     private String request;
     
@@ -37,22 +37,22 @@ public class RemixRequest {
         
     }
     
-    public RemixRequest(RemixAPI.API api, RemixAPI.Format format, String request) {
+    public RemixRequest(RemixAPI.Endpoint api, RemixAPI.Format format, String request) {
         this.api = api;
         this.format = format;
         this.request = request;
     }
     
     //get the currently targeted api
-    public RemixAPI.API getAPI() {
+    public RemixAPI.Endpoint getAPI() {
         return this.api;
     }
     
     //set the target api.  If the api parameter is null, 
     //the target api will be set to the products api as a default.
-    public void setAPI(RemixAPI.API api) {
+    public void setAPI(RemixAPI.Endpoint api) {
         if(null == api) {
-            this.api = RemixAPI.API.PRODUCTS;
+            this.api = RemixAPI.Endpoint.PRODUCTS;
         } else {
             this.api = api;
         }

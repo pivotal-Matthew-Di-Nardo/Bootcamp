@@ -12,12 +12,15 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings.System;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pivotallabs.bootcamp.R;
@@ -35,7 +38,7 @@ public class MainActivity extends Activity  implements RemixHttpTask.Callback{
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
         //                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
+		
 		setContentView(R.layout.activity_main);
 		
 		((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
@@ -82,8 +85,6 @@ public class MainActivity extends Activity  implements RemixHttpTask.Callback{
 				
 			}
 		});
-		
-		
 	}
 
 	@Override

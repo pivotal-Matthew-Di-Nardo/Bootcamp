@@ -24,9 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <uses-library android:name="android.test.runner"/>
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-       android:targetPackage="com.pivotallabs.bootcamp.remixAPI" android:label="Remix API Test" />
+       android:targetPackage="com.pivotallabs.bootcamp" android:label="Remix API Test" />
     
 </manifest>

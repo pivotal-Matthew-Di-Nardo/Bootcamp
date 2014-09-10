@@ -8,8 +8,14 @@ import android.test.AndroidTestCase;
 
 import org.json.*;
 
-public class ParserTest extends AndroidTestCase {
+import com.pivotallabs.bootcamp.remixAPI.*;
 
+public class ParserTest extends AndroidTestCase {
+	
+	RemixResponse response;
+	RemixResponseParser parser = new RemixResponseParser();
+	
+	
     @Before
     protected void setUp() throws Exception {
         super.setUp();
@@ -21,12 +27,28 @@ public class ParserTest extends AndroidTestCase {
     }
 
     @Test
-    public void test() {
+    public void testParseSuccessful() {
         
-        
-        JSONTokener tokener = new JSONTokener(null);
-
+    	String json = "";
+    	RemixResponseParser.parse(RemixAPI.Format.JSON, json);
+    	
         fail("Not yet implemented");
     }
+    
+    @Test
+    public void testParseFailFromMalformedJSON() {
 
+    	String badJSON = "";
+    	
+    	RemixResponseParser.parse(RemixAPI.Format.JSON, badJSON);
+    	
+    	fail("Not yet implemented");
+    }
+    
+    
+    // Helper Methods
+    
+    private static RemixResponse createRemixResponse(RemixAPI.Format format, String response) {
+    	return new RemixResponse(format, response);
+    }
 }

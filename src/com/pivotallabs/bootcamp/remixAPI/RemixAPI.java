@@ -1,7 +1,7 @@
 package com.pivotallabs.bootcamp.remixAPI;
 
 public class RemixAPI {
-    public enum API {
+    public enum Endpoint {
         
         CATEGORIES("categories"),
         PRODUCTS("products"),
@@ -11,7 +11,7 @@ public class RemixAPI {
         
         private String name;
         
-        private API (String name) {
+        private Endpoint (String name) {
             this.name = name;
         }
         

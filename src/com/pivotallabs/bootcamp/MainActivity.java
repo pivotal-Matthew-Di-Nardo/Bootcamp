@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.pivotallabs.bootcamp.R;
 import com.pivotallabs.bootcamp.remixAPI.*;
 
-public class MainActivity extends Activity  implements RemixHttpTask.Callback{
+public class MainActivity extends Activity implements RemixHttpTask.Callback{
 
 	
 	private final String testRequest = "http://api.remix.bestbuy.com/v1/products/1305180947.json?show=sku%2Cname&apiKey=fd5a9pp3fs96z6nvw3bmmpt6";

@@ -57,31 +57,6 @@ public class MainActivity extends Activity implements RemixHttpTask.Callback{
 			@Override
 			public void onClick(View v) {
 
-//				final AsyncTask<String, String, String> asyncHttpRequest = new AsyncTask<String, String, String>() {
-//
-//					@Override
-//					protected String doInBackground(String... params) {
-//						// TODO Auto-generated method stub
-//						
-//						String response = null;
-//						
-//						try {
-//							response = HttpRequest(params[0]);
-//						}
-//						catch (Exception e) {}
-//						
-//						return response;
-//					}
-//					
-//					
-//					protected void onPostExecute(String result) {
-//						TextView tv = (TextView) findViewById(R.id.textbox);
-//						tv.setText(result);
-//					}
-//				};
-//				
-//				asyncHttpRequest.execute(testRequest);
-
 			    jsonClient.fetchJSON(testRequest, new JSONClient.FetchJSONCallback() {
 					
 					@Override
@@ -107,33 +82,22 @@ public class MainActivity extends Activity implements RemixHttpTask.Callback{
 				
 			}
 		});
+		
+		
+		
+		((Button)findViewById(R.id.button1)).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				((TextView)findViewById(R.id.textbox)).setText("");
+			}
+		});
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    super.onSaveInstanceState(savedInstanceState);
-	}
-	
-	private String HttpRequest(String request) throws IOException, ClientProtocolException{
-		HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response;
-        String responseString = null;
-        
-            response = httpclient.execute(new HttpGet(request));
-            StatusLine statusLine = response.getStatusLine();
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                response.getEntity().writeTo(out);
-                out.close();
-                responseString = out.toString();
-            } else{
-                //Closes the connection.
-                response.getEntity().getContent().close();
-                throw new IOException(statusLine.getReasonPhrase());
-            }
-        
-        
-        return responseString;
 	}
 	
 	@Override

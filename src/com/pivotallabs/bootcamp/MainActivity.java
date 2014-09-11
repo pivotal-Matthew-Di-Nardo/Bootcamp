@@ -15,6 +15,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcel;
 import android.provider.Settings.System;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,15 +26,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pivotallabs.bootcamp.R;
+import com.pivotallabs.bootcamp.clients.JSONClient;
 import com.pivotallabs.bootcamp.remixAPI.*;
+
+import com.pivotallabs.bootcamp.clients.*;
 
 public class MainActivity extends Activity implements RemixHttpTask.Callback{
 
 	
 	private final String testRequest = "http://api.remix.bestbuy.com/v1/products/1305180947.json?show=sku%2Cname&apiKey=fd5a9pp3fs96z6nvw3bmmpt6";
+	private static JSONClient jsonClient;
+	private static Handler uiThreadHandler;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if (null == this.jsonClient) this.jsonClient = JSONClient.getInstance();
+		if (null == this.uiThreadHandler) this.uiThreadHandler = new Handler(getMainLooper());
 		
 		//set full screen
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -46,42 +57,53 @@ public class MainActivity extends Activity implements RemixHttpTask.Callback{
 			@Override
 			public void onClick(View v) {
 
-				final AsyncTask<String, String, String> asyncHttpRequest = new AsyncTask<String, String, String>() {
+//				final AsyncTask<String, String, String> asyncHttpRequest = new AsyncTask<String, String, String>() {
+//
+//					@Override
+//					protected String doInBackground(String... params) {
+//						// TODO Auto-generated method stub
+//						
+//						String response = null;
+//						
+//						try {
+//							response = HttpRequest(params[0]);
+//						}
+//						catch (Exception e) {}
+//						
+//						return response;
+//					}
+//					
+//					
+//					protected void onPostExecute(String result) {
+//						TextView tv = (TextView) findViewById(R.id.textbox);
+//						tv.setText(result);
+//					}
+//				};
+//				
+//				asyncHttpRequest.execute(testRequest);
 
+			    jsonClient.fetchJSON(testRequest, new JSONClient.FetchJSONCallback() {
+					
 					@Override
-					protected String doInBackground(String... params) {
+					public void onFetchJSONSuccess(final String json) {
+						// TODO Auto-generated method stub
+						uiThreadHandler.post(new Runnable() {
+							
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								TextView tv = (TextView) findViewById(R.id.textbox);
+								tv.setText(json);
+							}
+						});
+					}
+					
+					@Override
+					public void onFetchJSONFail(final Exception exception) {
 						// TODO Auto-generated method stub
 						
-						String response = null;
-						
-						try {
-							response = HttpRequest(params[0]);
-						}
-						catch (Exception e) {}
-						
-						return response;
 					}
-					
-					
-					protected void onPostExecute(String result) {
-						TextView tv = (TextView) findViewById(R.id.textbox);
-						tv.setText(result);
-					}
-				};
-				
-				asyncHttpRequest.execute(testRequest);
-				
-			    
-				//TextView tv = (TextView) findViewById(R.id.textbox);
-				//String productJSON = "blah";
-				//
-				//try {
-				//	productJSON = HttpRequest("http://api.remix.bestbuy.com/v1/products/1305180947.json?show=sku,name&apiKey=fd5a9pp3fs96z6nvw3bmmpt6");
-				//	tv.setText(productJSON);
-				//} catch (Exception e) {
-				//	tv.setText("Retrieval Failed!\n"+e.toString());
-				//}
-				
+				});
 				
 			}
 		});
@@ -90,8 +112,6 @@ public class MainActivity extends Activity implements RemixHttpTask.Callback{
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    super.onSaveInstanceState(savedInstanceState);
-	    
-	    
 	}
 	
 	private String HttpRequest(String request) throws IOException, ClientProtocolException{

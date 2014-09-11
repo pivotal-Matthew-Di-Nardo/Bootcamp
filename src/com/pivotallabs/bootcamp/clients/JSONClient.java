@@ -15,9 +15,9 @@ import android.util.JsonReader;
 public class JSONClient extends AsyncClient{
 	
 	public interface FetchJSONCallback {
-		public void onFetchJSONSuccess(String json);
+		public void onFetchJSONSuccess(final String json);
 		
-		public void onFetchJSONFail(Exception exception);
+		public void onFetchJSONFail(final Exception exception);
 	}
 	
 	private static JSONClient instance;
@@ -40,7 +40,7 @@ public class JSONClient extends AsyncClient{
 		
 		try {
 			
-			super.queueTask(new Runnable() {
+			super.executeTask(new Runnable() {
 				@Override
 				public void run() {				
 					try {
@@ -57,7 +57,7 @@ public class JSONClient extends AsyncClient{
 			return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
 	public void parseJSON(String url, JSONClient.FetchJSONCallback callback) {

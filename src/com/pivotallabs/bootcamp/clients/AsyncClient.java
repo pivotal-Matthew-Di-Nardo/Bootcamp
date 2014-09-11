@@ -28,8 +28,8 @@ public abstract class AsyncClient {
 		threadPoolExecutor = new ThreadPoolExecutor(1, 5, 5000, TimeUnit.MILLISECONDS, threadPoolTaskQueue);
 	}
 	
-	protected void queueTask(@NonNull Runnable r) throws InterruptedException {
-		this.threadPoolTaskQueue.put(r);
+	protected void executeTask(@NonNull Runnable r) throws InterruptedException {
+		this.threadPoolExecutor.execute(r);
 	}
 	
 	protected String HttpRequest(String request) throws IOException, ClientProtocolException{

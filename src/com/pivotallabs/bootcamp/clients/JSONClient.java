@@ -36,11 +36,11 @@ public class JSONClient extends AsyncClient{
 		return instance;
 	}
 	
-	public boolean fetchJSON(@NonNull final String url, @NonNull final JSONClient.FetchJSONCallback callback) {
+	public boolean fetchJSON(@NonNull final String url, @NonNull final JSONClient.FetchJSONCallback callback, boolean asynchronous) {
 		
-		try {
-			
-			super.executeTask(new Runnable() {
+		//attempt to add a JSON fetch request to the thread pool.
+		
+		final Runnable task = new Runnable() {
 				@Override
 				public void run() {				
 					try {
@@ -50,10 +50,18 @@ public class JSONClient extends AsyncClient{
 						callback.onFetchJSONFail(e);
 					}
 				}
-			});
+			};
+		
+		try {
+			
+			if (asynchronous) {
+				super.executeTask(task);
+			} else {
+				task.run();
+			}
 			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			//task failed to be dispatched.  return false to indicate this failure.
 			return false;
 		}
 		

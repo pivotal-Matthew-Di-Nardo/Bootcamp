@@ -1,35 +1,16 @@
 package com.pivotallabs.bootcamp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.app.Activity;
-import android.app.Application;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.provider.Settings.System;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.pivotallabs.bootcamp.R;
 import com.pivotallabs.bootcamp.clients.JSONClient;
-import com.pivotallabs.bootcamp.remixAPI.*;
-
-import com.pivotallabs.bootcamp.clients.*;
+import com.pivotallabs.bootcamp.remixAPI.RemixHttpTask;
 
 public class MainActivity extends Activity implements RemixHttpTask.Callback{
 
@@ -78,7 +59,7 @@ public class MainActivity extends Activity implements RemixHttpTask.Callback{
 						// TODO Auto-generated method stub
 						
 					}
-				});
+				}, true);
 				
 			}
 		});

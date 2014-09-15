@@ -2,6 +2,7 @@ package com.pivotallabs.bootcamp.clients;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
@@ -17,40 +18,52 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.support.annotation.NonNull;
-import android.os.Process;
+
 public abstract class AsyncClient {
-	
-	private ThreadPoolExecutor threadPoolExecutor;
-	private BlockingQueue<Runnable> threadPoolTaskQueue;
-	
-	protected void setup() {
-		this.threadPoolTaskQueue = new SynchronousQueue<Runnable>();
-		threadPoolExecutor = new ThreadPoolExecutor(1, 5, 5000, TimeUnit.MILLISECONDS, threadPoolTaskQueue);
-	}
-	
-	protected void executeTask(@NonNull Runnable r) throws InterruptedException {
-		this.threadPoolExecutor.execute(r);
-	}
-	
-	protected String HttpRequest(String request) throws IOException, ClientProtocolException{
-		HttpClient httpclient = new DefaultHttpClient();
+
+    private ThreadPoolExecutor threadPoolExecutor;
+    private BlockingQueue<Runnable> threadPoolTaskQueue;
+
+    protected void setup() {
+        this.threadPoolTaskQueue = new SynchronousQueue<Runnable>();
+        this.threadPoolExecutor = new ThreadPoolExecutor(1, 5, 5000, TimeUnit.MILLISECONDS, threadPoolTaskQueue);
+    }
+
+    protected void executeTaskAsync(@NonNull Runnable r)
+            throws InterruptedException {
+        this.threadPoolExecutor.execute(r);
+    }
+    
+    protected HttpResponse httpGet(String request) throws ClientProtocolException, IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpResponse response;
+        
+        response = httpClient.execute(new HttpGet(request));
+        OutputStream os; 
+        return response;
+    }
+    
+    protected OutputStream HttpRequest(String request) throws IOException, ClientProtocolException {
         HttpResponse response;
         String responseString = null;
         
-            response = httpclient.execute(new HttpGet(request));
-            StatusLine statusLine = response.getStatusLine();
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                response.getEntity().writeTo(out);
-                out.close();
-                responseString = out.toString();
-            } else{
-                //Closes the connection.
-                response.getEntity().getContent().close();
-                throw new IOException(statusLine.getReasonPhrase());
-            }
+        response = this.httpGet(request);
         
-        return responseString;
-	}
-	
+        StatusLine statusLine = response.getStatusLine();
+        
+        if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+            OutputStream out = new ByteArrayOutputStream();
+            response.getEntity().writeTo(out);
+            out.close();
+            
+            return out;
+            
+        } else {
+            // Closes the connection.
+            response.getEntity().getContent().close();
+            throw new IOException(statusLine.getReasonPhrase());
+        }
+
+    }
+
 }

@@ -3,6 +3,7 @@ package com.pivotallabs.bootcamp.clients;
 import org.apache.http.client.ClientProtocolException;
 import org.json.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.Exception;
@@ -44,7 +45,7 @@ public class JSONClient extends AsyncClient{
 				@Override
 				public void run() {				
 					try {
-						String result = HttpRequest(url);
+						String result = ((ByteArrayOutputStream)HttpRequest(url)).toString();
 						callback.onFetchJSONSuccess(result);
 					} catch (Exception e) {
 						callback.onFetchJSONFail(e);
@@ -55,7 +56,7 @@ public class JSONClient extends AsyncClient{
 		try {
 			
 			if (asynchronous) {
-				super.executeTask(task);
+				super.executeTaskAsync(task);
 			} else {
 				task.run();
 			}

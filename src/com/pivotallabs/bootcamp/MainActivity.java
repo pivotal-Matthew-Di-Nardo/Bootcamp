@@ -3,21 +3,27 @@ package com.pivotallabs.bootcamp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ListView;
 
+import com.pivotallabs.bootcamp.adaptors.ProductArrayAdapter;
 import com.pivotallabs.bootcamp.clients.JSONClient;
 import com.pivotallabs.bootcamp.remixAPI.RemixHttpTask;
 
 public class MainActivity extends Activity implements RemixHttpTask.Callback{
 
 	
-	private final String testRequest = "http://api.remix.bestbuy.com/v1/products/1305180947.json?show=sku%2Cname&apiKey=fd5a9pp3fs96z6nvw3bmmpt6";
+	//private final String testRequest = "http://api.remix.bestbuy.com/v1/products/1305180947.json?show=sku%2Cname&apiKey=fd5a9pp3fs96z6nvw3bmmpt6";
+    private final String testRequest = "http://api.remix.bestbuy.com/v1/products?format=json&show=sku,name,regularPrice,salePrice,onSale,image,largeImage,thumbnailImage,spin360URL&apiKey=fd5a9pp3fs96z6nvw3bmmpt6&sort=regularPrice.desc";
 	private static JSONClient jsonClient;
 	private static Handler uiThreadHandler;
+	
+	private ProductArrayAdapter productArrayAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,11 @@ public class MainActivity extends Activity implements RemixHttpTask.Callback{
         //                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		setContentView(R.layout.activity_main);
+		
+		//create a new product array adapter and bind the product list view to it
+		this.productArrayAdapter = new ProductArrayAdapter(getApplicationContext());
+		((ListView)findViewById(R.id.products_list_view)).setAdapter(this.productArrayAdapter);
+		
 		
 		((Button)findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
 			

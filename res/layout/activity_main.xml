@@ -15,42 +15,34 @@
         android:orientation="horizontal"
         tools:context="com.pivotallabs.bootcamp.MainActivity" >
 
-        
-        <!--
-        <SearchView 
-            android:id="@+id/search_view" >
-            
-        </SearchView> 
-        -->
-            
-    	<EditText
-    	    android:id="@+id/search_box"
-    	    android:layout_alignParentLeft="true"
-    	    android:layout_toLeftOf="@+id/button"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="match_parent"
-    	    android:hint="Enter a keyword or SKU..." />
-"
-   
         <Button 
             android:id="@+id/button"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Execute Http request" />
-    </RelativeLayout>
+        
+        <Button 
+            android:id="@+id/button1" 
+            android:layout_width="wrap_content" 
+            android:layout_height="match_parent" 
+            android:layout_toRightOf="@+id/button"
+            android:text="Clear" />
     
-    <TextView
-        android:id="@+id/textbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="32dp"
-        android:text="@string/hello_world" />
+    </RelativeLayout>
+    <ScrollView android:layout_width="wrap_content"
+                android:layout_height="400dp" >
+        <TextView
+            android:id="@+id/textbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal|vertical"
+            android:text="@string/hello_world" />
+    </ScrollView>
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear" />
+    <ListView 
+        android:id="@+id/products_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp" />
 
+    
 </LinearLayout>

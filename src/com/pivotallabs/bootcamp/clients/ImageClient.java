@@ -35,7 +35,7 @@ public class ImageClient extends AsyncClient {
         this.cache = new ConcurrentHashMap<String, Bitmap>();
     }
 
-    public ImageClient getInstance() {
+    public static ImageClient getInstance() {
         if (null == instance) {
             instance = new ImageClient();
         }
@@ -103,7 +103,6 @@ public class ImageClient extends AsyncClient {
             }
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             callback.onFetchImageFailure(e);
         }
 

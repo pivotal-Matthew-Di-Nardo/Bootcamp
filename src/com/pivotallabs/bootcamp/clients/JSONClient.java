@@ -5,6 +5,7 @@ import org.json.*;
 
 import com.pivotallabs.bootcamp.parsers.JSONParser;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +55,9 @@ public class JSONClient extends AsyncClient {
             @Override
             public void run() {
                 try {
-                    String result = ((ByteArrayOutputStream) HttpRequest(url)).toString();
+                    ByteArrayOutputStream os = (ByteArrayOutputStream) HttpRequest(url);
+                    String result = os.toString();
+                    os.close();
                     callback.onFetchJSONSuccess(result);
                 } catch (Exception e) {
                     callback.onFetchJSONFail(e);

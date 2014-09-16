@@ -28,21 +28,36 @@
             android:layout_toRightOf="@+id/button"
             android:text="Clear" />
     
-    </RelativeLayout>
-    <ScrollView android:layout_width="wrap_content"
-                android:layout_height="400dp" >
-        <TextView
-            android:id="@+id/textbox"
+        
+        <ImageView
+            android:id="@+id/test_image_view" 
+            android:minWidth="64dp"
+            android:minHeight="64dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal|vertical"
-            android:text="@string/hello_world" />
-    </ScrollView>
+            android:adjustViewBounds="true" 
+            android:contentDescription="Test Image"/>
+        
+    </RelativeLayout>
 
+    
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="300dp">
+            
+            <TextView
+                android:id="@+id/textbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal|vertical"
+                android:text="@string/hello_world" />
+        </ScrollView>
+        
     <ListView 
         android:id="@+id/products_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="400dp" />
+        android:layout_height="400dp" 
+        android:background="#bfbfbf"/>
 
     
 </LinearLayout>

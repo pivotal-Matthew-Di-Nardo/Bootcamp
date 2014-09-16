@@ -39,7 +39,7 @@ public abstract class AsyncClient {
         HttpResponse response;
         
         response = httpClient.execute(new HttpGet(request));
-        OutputStream os; 
+        
         return response;
     }
     
@@ -54,8 +54,6 @@ public abstract class AsyncClient {
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
             OutputStream out = new ByteArrayOutputStream();
             response.getEntity().writeTo(out);
-            out.close();
-            
             return out;
             
         } else {

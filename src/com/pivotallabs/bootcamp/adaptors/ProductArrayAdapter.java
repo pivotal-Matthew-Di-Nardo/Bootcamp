@@ -56,17 +56,19 @@ public class ProductArrayAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int arg0, View arg1, ViewGroup arg2) {
-        Product product = this.productArray[arg0];
+    public View getView(int index, View convertedView, ViewGroup parent) {
+        Product product = this.productArray[index];
         
-        if (null == arg1) {
-            arg1 = this.layoutInflator.inflate(R.layout.products_list_view_item, arg2, false);
+        if (null == convertedView) {
+            convertedView = this.layoutInflator.inflate(R.layout.products_list_view_item, parent, false);
         }
-        TextView name = (TextView) arg1.findViewById(R.id.products_list_view_item_name_textview);
+        TextView name = (TextView) convertedView.findViewById(R.id.products_list_view_item_name_textview);
+        TextView price = (TextView) convertedView.findViewById(R.id.products_list_view_item_price_textview);
         
+        name.setText((String) product.getAttribute(Product.Attribute.NAME));
+        price.setText( ((Double)product.getAttribute(Product.Attribute.SALE_PRICE)).toString() );
         
-        
-        return null;
+        return convertedView;
     }
 
 }

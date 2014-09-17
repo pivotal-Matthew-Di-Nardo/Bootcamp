@@ -5,4 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">bleh</string>
 
+    <string-array name="searchTypeArray">
+        <item >Most Expensive</item>
+        <item>Least Expensive</item>
+    </string-array>
+
 </resources>

@@ -1,6 +1,13 @@
 package com.pivotallabs.bootcamp.adaptors;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.pivotallabs.bootcamp.R;
+import com.pivotallabs.bootcamp.clients.ImageClient;
 import com.pivotallabs.bootcamp.models.Product;
 
 import android.content.Context;
@@ -10,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ProductArrayAdapter extends BaseAdapter {
@@ -34,7 +42,7 @@ public class ProductArrayAdapter extends BaseAdapter {
         this.productArray = array;
         this.notifyDataSetChanged();
     }
-    
+
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -64,9 +72,14 @@ public class ProductArrayAdapter extends BaseAdapter {
         }
         TextView name = (TextView) convertedView.findViewById(R.id.products_list_view_item_name_textview);
         TextView price = (TextView) convertedView.findViewById(R.id.products_list_view_item_price_textview);
+        ImageView image = (ImageView) convertedView.findViewById(R.id.products_list_view_item_largeImage_icon);
         
         name.setText((String) product.getAttribute(Product.Attribute.NAME));
-        price.setText( ((Double)product.getAttribute(Product.Attribute.SALE_PRICE)).toString() );
+        price.setText( "$" + ((Double)product.getAttribute(Product.Attribute.SALE_PRICE)).toString() );
+        
+        
+        String url = (String) product.getAttribute(Product.Attribute.LARGE_IMAGE_URL);
+        if (null != url) ImageClient.getInstance().fetchAndSetBitmap(url, image);
         
         return convertedView;
     }

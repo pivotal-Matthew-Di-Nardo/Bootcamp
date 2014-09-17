@@ -2,6 +2,8 @@ package com.pivotallabs.bootcamp.clients;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +19,7 @@ import org.apache.http.client.params.HttpClientParams;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Looper;
 
 public class ImageClient extends AsyncClient {
 
@@ -31,7 +34,7 @@ public class ImageClient extends AsyncClient {
     private final Object cacheLock = new Object(); 
 
     private ImageClient() {
-        // this.cache = new HashMap<String, Bitmap>();
+        super.setup();
         this.cache = new ConcurrentHashMap<String, Bitmap>();
     }
 
@@ -55,7 +58,29 @@ public class ImageClient extends AsyncClient {
         final Runnable task = new Runnable() {
             @Override
             public void run() {
-                fetchBitmap(url, callback);
+                //fetchBitmap(url, callback);
+                Bitmap image = null;
+                try {
+                    InputStream is = (new java.net.URL(url)).openStream();
+                    image = BitmapFactory.decodeStream(is);
+                    
+                    //failed to create image from input stream
+                    if (null == image) {
+                        callback.onFetchImageFailure(new Exception(String.format("Unable to decode image stream from url: %s", url)));
+                    } else {
+                        //success
+                        callback.onFetchImageSuccess(image);
+                        
+                        //store image in cache
+                        synchronized(cacheLock) {
+                            cache.put(url, image);
+                        }
+                    }
+                    
+                } catch (Exception e) {
+                    callback.onFetchImageFailure(e);
+                }
+                
             }
         };
 
@@ -107,7 +132,26 @@ public class ImageClient extends AsyncClient {
         }
 
     }
-
+    
+    public void fetchAndSetBitmap(final String url, final android.widget.ImageView view) {
+        this.fetchBitmap(url, new ImageClient.Callback() {
+            
+            @Override
+            public void onFetchImageSuccess(Bitmap image) {
+                // TODO Auto-generated method stub
+                view.setImageBitmap(image);
+                
+                //Looper.getMainLooper().getThread().
+            }
+            
+            @Override
+            public void onFetchImageFailure(Exception error) {
+                // TODO Auto-generated method stub
+                
+            }
+        }, false, true);
+    }
+    
     public void clearCache() {
         synchronized (this.cacheLock) {
             this.cache.clear();

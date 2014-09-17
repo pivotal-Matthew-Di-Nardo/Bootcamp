@@ -1,5 +1,7 @@
 package com.pivotallabs.bootcamp.tests;
 
+import java.util.EnumMap;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,12 +10,14 @@ import android.test.AndroidTestCase;
 
 import org.json.*;
 
-import com.pivotallabs.bootcamp.remixAPI.*;
+import com.pivotallabs.bootcamp.clients.JSONClient;
+import com.pivotallabs.bootcamp.models.Product;
+import com.pivotallabs.bootcamp.models.Product.Attribute;
+import com.pivotallabs.bootcamp.parsers.ProductCollectionsParser;
+
 
 public class ParserTest extends AndroidTestCase {
 	
-	RemixResponse response;
-	RemixResponseParser parser = new RemixResponseParser();
 	
 	
     @Before
@@ -27,28 +31,34 @@ public class ParserTest extends AndroidTestCase {
     }
 
     @Test
-    public void testParseSuccessful() {
-        
-    	String json = "";
-    	RemixResponseParser.parse(RemixAPI.Format.JSON, json);
+    public void testParse() {
+        //Expected: 10 results (1st page), each containing name, regularPrice, largeImage, etc...
+    	String request = "http://api.remix.bestbuy.com/v1/products?format=json&show=sku,name,regularPrice,salePrice,onSale,image,largeImage,thumbnailImage,spin360URL&apiKey=fd5a9pp3fs96z6nvw3bmmpt6&sort=regularPrice.desc";
     	
-        fail("Not yet implemented");
+    	JSONClient.getInstance().fetchJSON(request, new JSONClient.FetchJSONCallback() {
+            
+            @Override
+            public void onFetchJSONSuccess(final String json) {
+                // TODO Auto-generated method stub
+                Product[] products = ProductCollectionsParser.parse(json);
+                
+                assertNotNull(products);
+                
+                assertEquals(10, products.length);
+                
+                assertNotNull(products[0].getAttribute(Product.Attribute.NAME));
+                assertNotNull(products[0].getAttribute(Product.Attribute.REGULAR_PRICE));
+                assertNotNull(products[0].getAttribute(Product.Attribute.LARGE_IMAGE_URL));
+            }
+            
+            @Override
+            public void onFetchJSONFail(Exception exception) {
+                // TODO Auto-generated method stub
+                fail("Couldn't complete test: unable to retrieve JSON.");
+            }
+        }, false);
+    	
     }
     
-    @Test
-    public void testParseFailFromMalformedJSON() {
-
-    	String badJSON = "";
-    	
-    	RemixResponseParser.parse(RemixAPI.Format.JSON, badJSON);
-    	
-    	fail("Not yet implemented");
-    }
     
-    
-    // Helper Methods
-    
-    private static RemixResponse createRemixResponse(RemixAPI.Format format, String response) {
-    	return new RemixResponse(format, response);
-    }
 }

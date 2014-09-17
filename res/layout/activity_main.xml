@@ -9,41 +9,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.pivotallabs.bootcamp.MainActivity" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="64dp"
         android:orientation="horizontal"
         tools:context="com.pivotallabs.bootcamp.MainActivity" >
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Search: " />
 
+        <Spinner 
+            android:id="@+id/spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:entries="@array/searchTypeArray"
+            android:spinnerMode="dropdown"/>
+        
         <Button 
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Execute Http request" />
+            android:text="Go!" />
         
         <Button 
             android:id="@+id/button1" 
             android:layout_width="wrap_content" 
             android:layout_height="match_parent" 
             android:layout_toRightOf="@+id/button"
-            android:text="Clear" />
-    
+            android:text="Clear" 
+            android:visibility="gone"/>
+
         
-        <ImageView
-            android:id="@+id/test_image_view" 
-            android:minWidth="64dp"
-            android:minHeight="64dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true" 
-            android:contentDescription="Test Image"/>
-        
-    </RelativeLayout>
+    </LinearLayout>
 
     
         <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="300dp">
+            android:layout_height="300dp"
+            android:visibility="gone">
             
             <TextView
                 android:id="@+id/textbox"
@@ -56,7 +63,7 @@
     <ListView 
         android:id="@+id/products_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="400dp" 
+        android:layout_height="1000dp" 
         android:background="#bfbfbf"/>
 
     
